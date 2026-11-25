@@ -13,6 +13,11 @@ ENTRY_TEXT = "hotfix: the bug is now officially a feature — updated the docs t
 # the specific irony of a repair that broke more than it mended, told
 # in the flat voice of a tired engineer at the end of a bad day.
 
+# The gate requires 1-100 characters of non-blank UTF-8 text; refuse
+# to write anything outside that range rather than submit an invalid line.
+if not 1 <= len(ENTRY_TEXT) <= 100 or not ENTRY_TEXT.strip():
+    raise ValueError("entry text must be 1-100 non-blank characters")
+
 
 def main():
     out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
